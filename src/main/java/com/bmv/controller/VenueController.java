@@ -21,7 +21,6 @@ import com.bmv.entities.Venue;
 import com.bmv.payloads.VenueResponse;
 import com.bmv.services.VenueService;
 
-import jakarta.annotation.PostConstruct;
 
 @RestController
 @CrossOrigin

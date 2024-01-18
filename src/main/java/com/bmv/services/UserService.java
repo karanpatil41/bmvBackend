@@ -1,8 +1,12 @@
 package com.bmv.services;
 
+import java.util.List;
+
 import com.bmv.entities.User;
 
 public interface UserService {
-	User saveUser(User user);
+	User createUser(User user);
+	
+	List<User> getAllUsers();
 	
 }
