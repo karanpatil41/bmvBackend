@@ -6,10 +6,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.bmv.entities.Usee;
 import com.bmv.entities.User;
 import com.bmv.repositories.UserRepo;
-import com.bmv.repositories.UserRepository;
+
 
 import jakarta.transaction.Transactional;
 
@@ -25,9 +24,9 @@ public class CustomUserDetailService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// load user from database
-		System.out.println("In CustomUserDetailService..."+username);
+		System.out.println("In CustomUserDetailService's loadUserByUsername 1..."+username);
 		User user = userRepo.findByEmail(username).orElseThrow(()-> new RuntimeException("User not found!!"));
-		System.out.println("In CustomUserDetailService-2..."+user.toString());
+		System.out.println("In CustomUserDetailService's loadUserByUsername-2..."+user.toString());
 		return user;
 	}
 

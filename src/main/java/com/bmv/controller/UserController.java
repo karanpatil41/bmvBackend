@@ -29,7 +29,7 @@ import com.bmv.services.UserService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class UserController {
 
 	@Autowired
@@ -46,7 +46,7 @@ public class UserController {
 	
 	 @PostMapping("/login")
 	    public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request) {
-
+		 	System.out.println("In UserController's login method-1"+request);
 	        this.doAuthenticate(request.getEmail(), request.getPassword());
 
 
@@ -84,8 +84,8 @@ public class UserController {
 		try {
 			// You can convert the UserSignUpRequest to the User entity and save it
 			User user = convertToUserEntity(userSignUpRequest);
-			userService.createUser(user);
-
+			User userCreated = userService.createUser(user);
+			System.out.println("In UserController's signup method 1: "+userCreated.toString());
 			return new ResponseEntity<>("User signed up successfully", HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>("Error signing up user", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -119,7 +119,6 @@ public class UserController {
 	}
 
 	@GetMapping("/user/userProfile")
-//	@PreAuthorize("hasAuthority('NORMAL_USER')")
 	public String userProfile() {
 		return "Welcome to User Profile";
 	}
@@ -128,16 +127,6 @@ public class UserController {
 	public String getLoggedInUser(Principal principal){
 		return principal.getName();
 	}
-//	@GetMapping("/venueManager/venueManagerProfile")
-//	@PreAuthorize("hasAuthority('VENUE_MANAGER')")
-//	public String venueManagerProfile() {
-//		return "Welcome to Venue Manager Profile";
-//	}
-//	
-//	@GetMapping("/admin/adminProfile")
-//	@PreAuthorize("hasAuthority('ADMIN')")
-//	public String adminProfile() {
-//		return "Welcome to Admin Profile";
-//	}
+
 
 }

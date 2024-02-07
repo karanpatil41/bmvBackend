@@ -2,6 +2,7 @@ package com.bmv.services.impl;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,12 @@ public class VenueServiceImpl implements VenueService {
 	public List<Venue> getAllVenues() {
 		List<Venue> allVenues = venueRepo.findAll();
 		return allVenues;
+	}
+
+	@Override
+	public Optional<Venue> getVenueById(Integer id) {
+		Optional<Venue> venue = venueRepo.findById(id);
+		return venue;
 	}
 
 }

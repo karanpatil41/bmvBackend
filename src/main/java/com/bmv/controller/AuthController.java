@@ -1,5 +1,7 @@
 package com.bmv.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,19 +11,18 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bmv.entities.Usee;
+
 import com.bmv.entities.User;
 import com.bmv.model.JwtRequest;
 import com.bmv.model.JwtResponse;
 import com.bmv.security.JwtHelper;
 import com.bmv.services.UserService;
-//import com.bmv.services.impl.UserService;
-
 
 @RestController
 @RequestMapping("/auth")
@@ -86,5 +87,10 @@ public class AuthController {
 	    @PostMapping("/create-user")
 		public User createUser(@RequestBody User user) {
 			return userService.createUser(user);
+		}
+	    
+	    @GetMapping("/current-user")
+		public String getLoggedInUser(Principal principal) {
+			return principal.getName();
 		}
 }

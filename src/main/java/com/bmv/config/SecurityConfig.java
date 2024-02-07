@@ -42,9 +42,11 @@ public class SecurityConfig {
 					auth -> 
 						auth.requestMatchers("/home/**").authenticated()
 						.requestMatchers("/auth/login").permitAll()
-						.requestMatchers("api/users/login").permitAll()
-						.requestMatchers("api/users/signup").permitAll()
+						.requestMatchers("api/user/login").permitAll()
+						.requestMatchers("api/user/signup").permitAll()
 						.requestMatchers("/auth/create-user").permitAll()
+						.requestMatchers("/api/venue/getAllVenues").permitAll()
+						.requestMatchers("/api/venue/venueDetails").permitAll()
 						.anyRequest().authenticated())
 			.exceptionHandling(ex -> ex.authenticationEntryPoint(point))
 			.sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
