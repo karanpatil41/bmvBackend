@@ -47,6 +47,7 @@ public class SecurityConfig {
 						.requestMatchers("/auth/create-user").permitAll()
 						.requestMatchers("/api/venue/getAllVenues").permitAll()
 						.requestMatchers("/api/venue/venueDetails").permitAll()
+						.requestMatchers("/api/venue/search").permitAll()
 						.anyRequest().authenticated())
 			.exceptionHandling(ex -> ex.authenticationEntryPoint(point))
 			.sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

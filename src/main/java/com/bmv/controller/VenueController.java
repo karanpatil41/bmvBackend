@@ -11,9 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,7 +36,7 @@ public class VenueController {
 			@RequestParam("amount") Integer amount, @RequestParam("description") String description,
 			@RequestParam("contactNumber") String contactNumber) {
 
-		System.out.println("In Venue Controller.");
+		System.out.println("In Venue Controller: createVenue()");
 		try {
 			Venue venue = new Venue();
 			venue.setVenueName(venueName);
@@ -61,7 +59,7 @@ public class VenueController {
 
 	@GetMapping("/getAllVenues")
 	public ResponseEntity<List<VenueResponse>> getAllVenues() {
-		System.out.println("In Veune Controller: ");
+		System.out.println("In Veune Controller: getAllVenues()");
 		List<Venue> allVenues = this.venueService.getAllVenues();
 		List<VenueResponse> venueResponses = new ArrayList<>();
 
@@ -103,16 +101,43 @@ public class VenueController {
 			venueResponse.setAmount(venue.getAmount());
 			venueResponse.setContactNumber(venue.getContactNumber());
 			venueResponse.setDescription(venue.getDescription());
-			
-			//Convert image to base64
-			String base64Image =Base64.getEncoder().encodeToString(venue.getImage());
+
+			// Convert image to base64
+			String base64Image = Base64.getEncoder().encodeToString(venue.getImage());
 			venueResponse.setImage(base64Image);
-			
+
 			return new ResponseEntity<>(venueResponse, HttpStatus.OK);
-		}else {
+		} else {
 			// Venue not found, return 404 Not Found status
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+
+	}
+
+	@GetMapping("/search")
+	public ResponseEntity<List<VenueResponse>> getVenueByAddressAndCapacity(@RequestParam("city") String address,
+			@RequestParam("capacity") Integer capacity) {
+		System.out.println("In Venue Controller: getVenueByCityAndCapacity()");
+		List<Venue> allVenues = venueService.getVenueByAddressAndCapacity(address, capacity);
+		List<VenueResponse> venueResponses = new ArrayList<>();
 		
+		for( Venue venue : allVenues ) {
+			VenueResponse venueResponse = new VenueResponse();
+			venueResponse.setId(venue.getId());
+			venueResponse.setVenueName(venue.getVenueName());
+			venueResponse.setCapacity(venue.getCapacity());
+			venueResponse.setUsername(venue.getUsername());
+			venueResponse.setAddress(venue.getAddress());
+			venueResponse.setAmount(venue.getAmount());
+			venueResponse.setContactNumber(venue.getContactNumber());
+			venueResponse.setDescription(venue.getDescription());
+			
+			String base64Image = Base64.getEncoder().encodeToString(venue.getImage());
+			venueResponse.setImage(base64Image);
+			
+			venueResponses.add(venueResponse);//venueResponse added to the->list of venueResponses.  
+		}
+		return new ResponseEntity<>(venueResponses, HttpStatus.OK);
+
 	}
 }

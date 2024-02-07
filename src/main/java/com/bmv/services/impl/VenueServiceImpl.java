@@ -36,4 +36,10 @@ public class VenueServiceImpl implements VenueService {
 		return venue;
 	}
 
+	@Override
+	public List<Venue> getVenueByAddressAndCapacity(String address, Integer capacity) {
+		List<Venue> allVenues = venueRepo.findByAddressAndCapacity(address, capacity);
+		return allVenues;
+	}
+
 }

@@ -1,8 +1,5 @@
 package com.bmv.payloads;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Lob;
-
 public class VenueResponse {
 	private int id;
 	private String username;
