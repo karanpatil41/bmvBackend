@@ -1,6 +1,7 @@
 package com.bmv.services;
 
 import java.util.List;
+import java.util.Map;
 
 import com.bmv.entities.User;
 
@@ -11,4 +12,5 @@ public interface UserService {
 	
 	User getUserByUsername(String username);
 	
+	User updateUser(String username, Map<String, Object> updates);
 }

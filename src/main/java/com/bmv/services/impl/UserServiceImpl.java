@@ -2,6 +2,7 @@ package com.bmv.services.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.bmv.entities.User;
+import com.bmv.exception.ResourceNotFoundException;
 import com.bmv.repositories.UserRepo;
 import com.bmv.services.UserService;
 
@@ -52,5 +54,34 @@ public class UserServiceImpl implements UserService {
 		logger.info(" user=",user);
 		logger.info("UserServiceImpl's getUserByUsername- user.toString()=",user.toString());
 		return user; 
+	}
+
+	@Override
+	public User updateUser(String username, Map<String, Object> updates) {
+		User existingUser =userRepo.findByEmail(username).orElseThrow(() -> new ResourceNotFoundException("User not found with username "+username));
+		
+		logger.info("UserServiceImpl updateUser() existingUser=",existingUser);
+		
+		//update user fields dynamically
+		updates.forEach((key, value) -> {
+			switch (key) {
+			case "firstName":
+				existingUser.setFirstName((String) value);
+				break;
+			case "lastName":
+				existingUser.setLastName((String) value);
+				break;
+			case "address":
+				existingUser.setAddress((String) value);
+				break;
+			case "contactNumber":
+				existingUser.setContactNumber((String) value);
+				break;
+			
+			default:
+				throw new IllegalArgumentException("Invalid field: " + key);
+			}
+		});
+		return userRepo.save(existingUser);
 	}
 }
