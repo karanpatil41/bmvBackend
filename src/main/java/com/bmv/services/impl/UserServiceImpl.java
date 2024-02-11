@@ -3,13 +3,18 @@ package com.bmv.services.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.bmv.entities.User;
 import com.bmv.repositories.UserRepo;
 import com.bmv.services.UserService;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -21,6 +26,8 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	private Logger logger = LoggerFactory.getLogger(OncePerRequestFilter.class);
 	
 	@Override
 	public User createUser(User user) {
@@ -36,4 +43,14 @@ public class UserServiceImpl implements UserService {
 		return usersList;
 	}
 
+	@Override
+	@Transactional
+	public User getUserByUsername(String username) {
+		//calling stored procedure to retrieved specific user
+		logger.info("UserServiceImpl's getUserByUsername");
+		User user =userRepo.getUserByUsername(username);
+		logger.info(" user=",user);
+		logger.info("UserServiceImpl's getUserByUsername- user.toString()=",user.toString());
+		return user; 
+	}
 }

@@ -16,6 +16,7 @@ public class UserSignUpRequest {
 	private String address ;
 	private String password;
 	private String confirmPassword; 
+	private String roleName;
 	private int roleId;
 	
 	public UserSignUpRequest() {
@@ -23,7 +24,7 @@ public class UserSignUpRequest {
 	}
 
 	public UserSignUpRequest(int id, String firstName, String lastName, String email, String contactNumber,
-			String address, String password, String confirmPassword, int roleId) {
+			String address, String password, String confirmPassword, String roleName,int roleId) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -33,6 +34,7 @@ public class UserSignUpRequest {
 		this.address = address;
 		this.password = password;
 		this.confirmPassword = confirmPassword;
+		this.roleName = roleName;
 		this.roleId = roleId;
 	}
 
@@ -100,6 +102,14 @@ public class UserSignUpRequest {
 		this.confirmPassword = confirmPassword;
 	}
 
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+
 	public int getRoleId() {
 		return roleId;
 	}
@@ -112,7 +122,9 @@ public class UserSignUpRequest {
 	public String toString() {
 		return "UserSignUpRequest [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email="
 				+ email + ", contactNumber=" + contactNumber + ", address=" + address + ", password=" + password
-				+ ", confirmPassword=" + confirmPassword + ", roleId=" + roleId + "]";
+				+ ", confirmPassword=" + confirmPassword + ", roleName=" + roleName + ", roleId=" + roleId + "]";
 	}
+
+	
 	
 }

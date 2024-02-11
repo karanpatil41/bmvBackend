@@ -1,5 +1,7 @@
 package com.bmv.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,12 +11,15 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.bmv.security.JwtAuthenticationEntryPoint;
 import com.bmv.security.JwtAuthenticationFilter;
+import com.bmv.services.impl.CustomUserDetailService;
 
 //Configure spring security in configuration file:
 @Configuration
@@ -27,13 +32,13 @@ public class SecurityConfig {
 	private JwtAuthenticationFilter filter;
 	
 	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
-	@Autowired
 	private UserDetailsService userDetailsService;
+	
+	private Logger logger = LoggerFactory.getLogger(OncePerRequestFilter.class);
 	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		logger.info("SecurityConfig class--securityFilterChain()",http);
 		
 		//configuration
 		http.csrf(csrf-> csrf.disable())
@@ -55,17 +60,31 @@ public class SecurityConfig {
 		http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
+
+//	@Bean
+//	public UserDetailsService getUserDetailService() {
+//		return new CustomUserDetailService();
+//	}
 	
 	@Bean
 	public DaoAuthenticationProvider daoAuthenticationProvider() {
 		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
 		provider.setUserDetailsService(userDetailsService);
-		provider.setPasswordEncoder(passwordEncoder);
+		provider.setPasswordEncoder(passwordEncoder());
+		logger.info("SecurityConfig class--daoAuthenticationProvider()",provider);
 		return provider;
 	}
 	
 	@Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration builder) throws Exception {
+		logger.info("SecurityConfig class--authenticationManager()",builder);
+		
         return builder.getAuthenticationManager();
     }
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		logger.info("SecurityConfig class--passwordEncoder()");
+		return new BCryptPasswordEncoder();
+	}
+	
 }

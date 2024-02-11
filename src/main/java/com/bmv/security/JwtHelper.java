@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -18,6 +21,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class JwtHelper {
 
+	private Logger logger = LoggerFactory.getLogger(OncePerRequestFilter.class);
 
     //requirement :
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
@@ -53,9 +57,9 @@ public class JwtHelper {
 
     //generate token for user
     public String generateToken(UserDetails userDetails) {
-    	System.out.println("In JwtHelper's generateToken method 1. userDetails : "+userDetails);
+    	logger.info("AUTHENTICATION-10-In JwtHelper's generateToken(). userDetails : "+userDetails);
         Map<String, Object> claims = new HashMap<>();
-        System.out.println("In JwtHelper's generateToken method 2. claims : "+claims);
+        logger.info("AUTHENTICATION-11-In JwtHelper's generateToken(). claims : "+claims);
         return doGenerateToken(claims, userDetails.getUsername());
     }
 
@@ -65,7 +69,8 @@ public class JwtHelper {
     //3. According to JWS Compact Serialization(https://tools.ietf.org/html/draft-ietf-jose-json-web-signature-41#section-3.1)
     //   compaction of the JWT to a URL-safe string
     private String doGenerateToken(Map<String, Object> claims, String subject) {
-    	System.out.println("In JwtHelper's doGenerateToken method 1. claims : "+claims+" subject: "+subject);//subject= null
+    	logger.info("AUTHENTICATION-12-In JwtHelper's doGenerateToken(). claims : "+claims+" subject: "+subject);
+
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
                 .signWith(SignatureAlgorithm.HS512, secret).compact();

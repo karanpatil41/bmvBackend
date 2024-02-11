@@ -1,31 +1,41 @@
 package com.bmv.controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bmv.entities.User;
 import com.bmv.entities.Venue;
 import com.bmv.payloads.VenueResponse;
 import com.bmv.services.VenueService;
 
 @RestController
-@CrossOrigin
+@CrossOrigin("*")
 @RequestMapping("/api/venue")
 public class VenueController {
 
+	private Logger logger = LoggerFactory.getLogger(OncePerRequestFilter.class);
+	
 	@Autowired
 	private VenueService venueService;
 
@@ -34,20 +44,31 @@ public class VenueController {
 			@RequestParam("username") String username, @RequestParam("venueName") String venueName,
 			@RequestParam("address") String address, @RequestParam("capacity") Integer capacity,
 			@RequestParam("amount") Integer amount, @RequestParam("description") String description,
-			@RequestParam("contactNumber") String contactNumber) {
-
-		System.out.println("In Venue Controller: createVenue()");
+			@RequestParam("contactNumber") String contactNumber, Authentication authentication) {
+		// Get the authenticated user's username
+	    String tokenUsername = authentication.getName();
+	    logger.info("Authenticated username= " + username);
+	    logger.info("Venue Controller: createVenue()");
+	    
 		try {
 			Venue venue = new Venue();
 			venue.setVenueName(venueName);
 			venue.setUsername(username);
+			venue.setCreatedBy(tokenUsername);
+//			venue.setLastUpdatedBy(tokenUsername);
 			venue.setAddress(address);
 			venue.setCapacity(capacity);
 			venue.setAmount(amount);
 			venue.setDescription(description);
 			venue.setContactNumber(contactNumber);
 			venue.setImage(image.getBytes());
-			System.out.println("Venue Controller= " + venue.toString());
+			
+			// Set createDate and lastUpdatedDate with current LocalDateTime
+            LocalDateTime currentDateTime = LocalDateTime.now(); // Get the current date and time
+            venue.setCreatedDate(currentDateTime); // Set createDate
+//            venue.setLastUpdatedDate(currentDateTime); // Set lastUpdatedDate
+            
+            logger.info("Venue Controller: createVenue()"+ venue.toString());
 			Venue addedVenue = this.venueService.createVenue(venue);
 			String msg = "User added successfully";
 			return new ResponseEntity<Venue>(addedVenue, HttpStatus.CREATED);

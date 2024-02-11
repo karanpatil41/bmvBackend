@@ -1,8 +1,10 @@
 package com.bmv.entities;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
@@ -11,7 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
 
 @Entity
@@ -28,8 +30,11 @@ public class User implements UserDetails{
 	private String address ;
 	private String password;
 	@Transient
-	private String confirmPassword; 
-	@ManyToOne
+	private String confirmPassword;
+	
+	private String roleName;
+	
+	@OneToOne
 	@JoinColumn(name = "role_id") //Specify the foreign key column name
 	private Role role;
 	
@@ -37,9 +42,13 @@ public class User implements UserDetails{
 	public User() {
 		
 	}
+//	public User(User user) {
+//		this.role = user;
+//	}
+	
 
 	public User(int id, String firstName, String lastName, String email, String contactNumber, String address,
-			String password, String confirmPassword, Role roleId) {
+			String password, String confirmPassword, String roleName, Role role) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -49,9 +58,10 @@ public class User implements UserDetails{
 		this.address = address;
 		this.password = password;
 		this.confirmPassword = confirmPassword;
-		this.role = roleId;
+		this.roleName = roleName;
+		this.role = role;
 	}
-
+	
 	public int getId() {
 		return id;
 	}
@@ -115,7 +125,13 @@ public class User implements UserDetails{
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
-
+	
+	public String getRoleName() {
+		return roleName;
+	}
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
 	public Role getRole() {
 		return role;
 	}
@@ -124,15 +140,19 @@ public class User implements UserDetails{
 		this.role = role;
 	}
 
+	
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", contactNumber=" + contactNumber + ", address=" + address + ", password=" + password
-				+ ", confirmPassword=" + confirmPassword + ", roleId=" + role + "]";
+				+ ", confirmPassword=" + confirmPassword + ", roleName=" + roleName + ", role=" + role + "]";
 	}
-
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
+//		SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(role.getRoleName());
+		
+//		return List.of(simpleGrantedAuthority);
 		return null;
 	}
 

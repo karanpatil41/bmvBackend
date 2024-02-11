@@ -41,7 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-
+		logger.info("JwtAuthenticationFilter class--doFilterInternal()",request);
 //	        try {
 //	            Thread.sleep(500);
 //	        } catch (InterruptedException e) {
