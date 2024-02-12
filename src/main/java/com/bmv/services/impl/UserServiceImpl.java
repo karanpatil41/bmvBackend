@@ -58,12 +58,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User updateUser(String username, Map<String, Object> updates) {
+		logger.info("updates=",updates);
+		logger.info("username=",username);
 		User existingUser =userRepo.findByEmail(username).orElseThrow(() -> new ResourceNotFoundException("User not found with username "+username));
 		
 		logger.info("UserServiceImpl updateUser() existingUser=",existingUser);
 		
 		//update user fields dynamically
 		updates.forEach((key, value) -> {
+			logger.info("key=",key);
 			switch (key) {
 			case "firstName":
 				existingUser.setFirstName((String) value);
