@@ -142,6 +142,7 @@ public class UserController {
 			@RequestBody Map<String, Object> updates) {
 		logger.info("UserController's updateUser() updates=",updates);
 		logger.info("UserController's updateUser() updates=",updates.toString());
+	    
 		User updatedUser = userService.updateUser(username, updates);
 		logger.info("UserController's updateUser() updatedUser=",updatedUser);
 		return new ResponseEntity<String>("User updated successfully", HttpStatus.OK);

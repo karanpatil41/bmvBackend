@@ -3,6 +3,7 @@ package com.bmv.services.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,8 +52,8 @@ public class UserServiceImpl implements UserService {
 		// calling stored procedure to retrieved specific user
 		logger.info("UserServiceImpl's getUserByUsername");
 		User user = userRepo.getUserByUsername(username);
-		logger.info(" user=", user);
-		logger.info("UserServiceImpl's getUserByUsername- user.toString()=", user.toString());
+		logger.info(" user="+ user);
+		logger.info("UserServiceImpl's getUserByUsername- user.toString()="+ user.toString());
 		return user;
 	}
 
@@ -63,11 +64,14 @@ public class UserServiceImpl implements UserService {
 		User existingUser = userRepo.findByEmail(username)
 				.orElseThrow(() -> new ResourceNotFoundException("User not found with username " + username));
 
-		logger.info("UserServiceImpl updateUser() existingUser=", existingUser);
+		logger.info("UserServiceImpl updateUser() existingUser="+ existingUser);
 
 		// update user fields dynamically
-		updates.forEach((key, value) -> {
-			logger.info("key=", key);
+//		updates.forEach((key, value) -> {
+		for(Entry<String, Object> entry: updates.entrySet()) {
+			String key = entry.getKey();
+			Object value = entry.getValue();
+			logger.info("key="+ key+" value= "+value);
 			switch (key) {
 			case "firstName":
 				existingUser.setFirstName((String) value);
@@ -121,7 +125,7 @@ public class UserServiceImpl implements UserService {
 			default:
 				throw new IllegalArgumentException("Invalid field: " + key);
 			}
-		});
+		};
 		return userRepo.save(existingUser);
 	}
 }
