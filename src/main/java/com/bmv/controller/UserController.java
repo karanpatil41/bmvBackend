@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,7 +36,7 @@ import com.bmv.security.JwtHelper;
 import com.bmv.services.UserService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/user")
 public class UserController {
 
@@ -135,10 +136,12 @@ public class UserController {
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
-	@PutMapping("/updateProfile")
+//	@PutMapping("/updateProfile")
+	@PatchMapping("/updateProfile")
 	public ResponseEntity<String> updateUser(@RequestParam("username") String username,
 			@RequestBody Map<String, Object> updates) {
 		logger.info("UserController's updateUser() updates=",updates);
+		logger.info("UserController's updateUser() updates=",updates.toString());
 		User updatedUser = userService.updateUser(username, updates);
 		logger.info("UserController's updateUser() updatedUser=",updatedUser);
 		return new ResponseEntity<String>("User updated successfully", HttpStatus.OK);

@@ -44,10 +44,31 @@ public class SecurityConfig {
 		logger.info("SecurityConfig class--securityFilterChain()", http);
 
 		// configuration
-		http.csrf(csrf -> csrf.disable()).cors(cors -> cors.disable())
+		http.csrf(csrf -> csrf.disable())
+				.authorizeHttpRequests(auth -> auth
+					.requestMatchers("/api/venue/**").permitAll()
+					.requestMatchers("/api/venue/createVenue").authenticated()
+					.requestMatchers("/api/user/**").permitAll()
+					.requestMatchers("/api/user/updateProfile","/api/user/userProfile").authenticated()
+					.anyRequest().authenticated()
+				)
+				.exceptionHandling(ex -> ex.authenticationEntryPoint(point))
+				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+
+		return http.build();
+	}
+	
+	/*
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		logger.info("SecurityConfig class--securityFilterChain()", http);
+
+		// configuration
+		http.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(auth -> auth.requestMatchers("/home/**").authenticated()
 						.requestMatchers("/auth/login").permitAll().requestMatchers("api/user/login").permitAll()
-						.requestMatchers("/api/user/userProfile").permitAll().requestMatchers("api/user/signup")
+						.requestMatchers("/api/user/").permitAll().requestMatchers("api/user/signup")
 						.permitAll()
 //						.requestMatchers("/api/user/updateProfile").permitAll()//secure
 						.requestMatchers("/auth/create-user").permitAll()
@@ -61,7 +82,7 @@ public class SecurityConfig {
 		http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
-
+	*/
 //	@Bean
 //	public CorsFilter corsFilter() {
 //		CorsConfiguration config = new CorsConfiguration();

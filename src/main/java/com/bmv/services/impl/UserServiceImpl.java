@@ -23,14 +23,14 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepo userRepo;
-	
-	private List<User> userList = new ArrayList<>();	
-	
+
+	private List<User> userList = new ArrayList<>();
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	private Logger logger = LoggerFactory.getLogger(OncePerRequestFilter.class);
-	
+
 	@Override
 	public User createUser(User user) {
 		System.out.println("In User service");
@@ -48,25 +48,26 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public User getUserByUsername(String username) {
-		//calling stored procedure to retrieved specific user
+		// calling stored procedure to retrieved specific user
 		logger.info("UserServiceImpl's getUserByUsername");
-		User user =userRepo.getUserByUsername(username);
-		logger.info(" user=",user);
-		logger.info("UserServiceImpl's getUserByUsername- user.toString()=",user.toString());
-		return user; 
+		User user = userRepo.getUserByUsername(username);
+		logger.info(" user=", user);
+		logger.info("UserServiceImpl's getUserByUsername- user.toString()=", user.toString());
+		return user;
 	}
 
 	@Override
 	public User updateUser(String username, Map<String, Object> updates) {
-		logger.info("updates=",updates);
-		logger.info("username=",username);
-		User existingUser =userRepo.findByEmail(username).orElseThrow(() -> new ResourceNotFoundException("User not found with username "+username));
-		
-		logger.info("UserServiceImpl updateUser() existingUser=",existingUser);
-		
-		//update user fields dynamically
+		logger.info("updates=", updates);
+		logger.info("username=", username);
+		User existingUser = userRepo.findByEmail(username)
+				.orElseThrow(() -> new ResourceNotFoundException("User not found with username " + username));
+
+		logger.info("UserServiceImpl updateUser() existingUser=", existingUser);
+
+		// update user fields dynamically
 		updates.forEach((key, value) -> {
-			logger.info("key=",key);
+			logger.info("key=", key);
 			switch (key) {
 			case "firstName":
 				existingUser.setFirstName((String) value);
@@ -80,7 +81,43 @@ public class UserServiceImpl implements UserService {
 			case "contactNumber":
 				existingUser.setContactNumber((String) value);
 				break;
-			
+			case "id":
+
+				break;
+			case "email":
+
+				break;
+			case "password":
+
+				break;
+			case "confirmPassword":
+
+				break;
+			case "roleName":
+
+				break;
+			case "role":
+
+				break;
+			case "username":
+
+				break;
+			case "authorities":
+
+				break;
+			case "accountNonExpired":
+
+				break;
+			case "accountNonLocked":
+
+				break;
+			case "credentialsNonExpired":
+
+				break;
+			case "enabled":
+
+				break;
+				
 			default:
 				throw new IllegalArgumentException("Invalid field: " + key);
 			}
