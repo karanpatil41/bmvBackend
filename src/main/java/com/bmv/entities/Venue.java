@@ -31,13 +31,10 @@ public class Venue {
 	private LocalDateTime createdDate;
 	private String lastUpdatedBy;
 	private LocalDateTime lastUpdatedDate;
-	
+
 	public Venue() {
 
 	}
-
-	
-	
 
 	public Venue(int id, String username, String venueName, String address, Integer capacity, Integer amount,
 			byte[] image, String description, String contactNumber, String createdBy, LocalDateTime createdDate,
@@ -58,189 +55,109 @@ public class Venue {
 		this.lastUpdatedDate = lastUpdatedDate;
 	}
 
-
-
 	public int getId() {
 		return id;
 	}
-
-
-
 
 	public void setId(int id) {
 		this.id = id;
 	}
 
-
-
-
 	public String getUsername() {
 		return username;
 	}
-
-
-
 
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
-
-
-
 	public String getVenueName() {
 		return venueName;
 	}
-
-
-
 
 	public void setVenueName(String venueName) {
 		this.venueName = venueName;
 	}
 
-
-
-
 	public String getAddress() {
 		return address;
 	}
-
-
-
 
 	public void setAddress(String address) {
 		this.address = address;
 	}
 
-
-
-
 	public Integer getCapacity() {
 		return capacity;
 	}
-
-
-
 
 	public void setCapacity(Integer capacity) {
 		this.capacity = capacity;
 	}
 
-
-
-
 	public Integer getAmount() {
 		return amount;
 	}
-
-
-
 
 	public void setAmount(Integer amount) {
 		this.amount = amount;
 	}
 
-
-
-
 	public byte[] getImage() {
 		return image;
 	}
-
-
-
 
 	public void setImage(byte[] image) {
 		this.image = image;
 	}
 
-
-
-
 	public String getDescription() {
 		return description;
 	}
-
-
-
 
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-
-
-
 	public String getContactNumber() {
 		return contactNumber;
 	}
-
-
-
 
 	public void setContactNumber(String contactNumber) {
 		this.contactNumber = contactNumber;
 	}
 
-
-
-
 	public String getCreatedBy() {
 		return createdBy;
 	}
-
-
-
 
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
 
-
-
-
 	public LocalDateTime getCreatedDate() {
 		return createdDate;
 	}
-
-
-
 
 	public void setCreatedDate(LocalDateTime createdDate) {
 		this.createdDate = createdDate;
 	}
 
-
-
-
 	public String getLastUpdatedBy() {
 		return lastUpdatedBy;
 	}
-
-
-
 
 	public void setLastUpdatedBy(String lastUpdatedBy) {
 		this.lastUpdatedBy = lastUpdatedBy;
 	}
 
-
-
-
 	public LocalDateTime getLastUpdatedDate() {
 		return lastUpdatedDate;
 	}
 
-
-
-
 	public void setLastUpdatedDate(LocalDateTime lastUpdatedDate) {
 		this.lastUpdatedDate = lastUpdatedDate;
 	}
-
-
-
 
 	@Override
 	public String toString() {

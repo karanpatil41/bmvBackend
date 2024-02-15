@@ -15,4 +15,6 @@ public interface VenueService {
 	Optional<Venue> getVenueById(Integer id);
 	
 	List<Venue> getVenueByAddressAndCapacity(String address ,Integer capacity);
+	
+	List<Venue> getVenueByUsername(String username);
 }

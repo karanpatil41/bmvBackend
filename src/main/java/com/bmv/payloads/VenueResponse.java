@@ -1,5 +1,7 @@
 package com.bmv.payloads;
 
+import java.time.LocalDateTime;
+
 public class VenueResponse {
 	private int id;
 	private String username;
@@ -10,13 +12,18 @@ public class VenueResponse {
 	private String image;
 	private String description;
 	private String contactNumber;
+	private String createdBy;
+	private LocalDateTime createdDate;
+	private String lastUpdatedBy;
+	private LocalDateTime lastUpdatedDate;
 
 	public VenueResponse() {
 
 	}
 
 	public VenueResponse(int id, String username, String venueName, String address, Integer capacity, Integer amount,
-			String image, String description, String contactNumber) {
+			String image, String description, String contactNumber, String createdBy, LocalDateTime createdDate,
+			String lastUpdatedBy, LocalDateTime lastUpdatedDate) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -27,6 +34,10 @@ public class VenueResponse {
 		this.image = image;
 		this.description = description;
 		this.contactNumber = contactNumber;
+		this.createdBy = createdBy;
+		this.createdDate = createdDate;
+		this.lastUpdatedBy = lastUpdatedBy;
+		this.lastUpdatedDate = lastUpdatedDate;
 	}
 
 	public int getId() {
@@ -101,11 +112,44 @@ public class VenueResponse {
 		this.contactNumber = contactNumber;
 	}
 
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public LocalDateTime getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(LocalDateTime createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getLastUpdatedBy() {
+		return lastUpdatedBy;
+	}
+
+	public void setLastUpdatedBy(String lastUpdatedBy) {
+		this.lastUpdatedBy = lastUpdatedBy;
+	}
+
+	public LocalDateTime getLastUpdatedDate() {
+		return lastUpdatedDate;
+	}
+
+	public void setLastUpdatedDate(LocalDateTime lastUpdatedDate) {
+		this.lastUpdatedDate = lastUpdatedDate;
+	}
+
 	@Override
 	public String toString() {
 		return "VenueResponse [id=" + id + ", username=" + username + ", venueName=" + venueName + ", address="
 				+ address + ", capacity=" + capacity + ", amount=" + amount + ", image=" + image + ", description="
-				+ description + ", contactNumber=" + contactNumber + "]";
+				+ description + ", contactNumber=" + contactNumber + ", createdBy=" + createdBy + ", createdDate="
+				+ createdDate + ", lastUpdatedBy=" + lastUpdatedBy + ", lastUpdatedDate=" + lastUpdatedDate + "]";
 	}
-	
+
 }

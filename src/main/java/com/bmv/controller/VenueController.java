@@ -161,4 +161,29 @@ public class VenueController {
 		return new ResponseEntity<>(venueResponses, HttpStatus.OK);
 
 	}
+	
+	@GetMapping("/getVenueByUsername")
+	public ResponseEntity<List<VenueResponse>> getVenueByUsername(@RequestParam("username") String username){
+		logger.info("In Venue Controller: getVenueByUsername()");
+		List<Venue> venueList = venueService.getVenueByUsername(username);
+		List<VenueResponse> venueResponses = new ArrayList<>();
+		
+		for( Venue venue : venueList ) {
+			VenueResponse venueResponse = new VenueResponse();
+			venueResponse.setId(venue.getId());
+			venueResponse.setVenueName(venue.getVenueName());
+			venueResponse.setCapacity(venue.getCapacity());
+			venueResponse.setUsername(venue.getUsername());
+			venueResponse.setAddress(venue.getAddress());
+			venueResponse.setAmount(venue.getAmount());
+			venueResponse.setContactNumber(venue.getContactNumber());
+			venueResponse.setDescription(venue.getDescription());
+			
+			String base64Image = Base64.getEncoder().encodeToString(venue.getImage());
+			venueResponse.setImage(base64Image);
+			
+			venueResponses.add(venueResponse);//venueResponse added to the->list of venueResponses.  
+		}
+		return new ResponseEntity<>(venueResponses,HttpStatus.OK);
+	}
 }

@@ -13,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
 
@@ -34,9 +35,9 @@ public class User implements UserDetails{
 	
 	private String roleName;
 	
-	@OneToOne
-	@JoinColumn(name = "role_id") //Specify the foreign key column name
-	private Role role;
+//	@ManyToOne
+//	@JoinColumn(name = "role_id") //Specify the foreign key column name
+//	private Role role;
 	
 	
 	public User() {
@@ -59,7 +60,7 @@ public class User implements UserDetails{
 		this.password = password;
 		this.confirmPassword = confirmPassword;
 		this.roleName = roleName;
-		this.role = role;
+//		this.role = role;
 	}
 	
 	public int getId() {
@@ -132,13 +133,13 @@ public class User implements UserDetails{
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
 	}
-	public Role getRole() {
-		return role;
-	}
+//	public Role getRole() {
+//		return role;
+//	}
 
-	public void setRole(Role role) {
-		this.role = role;
-	}
+//	public void setRole(Role role) {
+//		this.role = role;
+//	}
 
 	
 
@@ -146,7 +147,7 @@ public class User implements UserDetails{
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", contactNumber=" + contactNumber + ", address=" + address + ", password=" + password
-				+ ", confirmPassword=" + confirmPassword + ", roleName=" + roleName + ", role=" + role + "]";
+				+ ", confirmPassword=" + confirmPassword + ", roleName=" + roleName  + "]";
 	}
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

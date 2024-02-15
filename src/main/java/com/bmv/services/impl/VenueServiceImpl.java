@@ -14,6 +14,8 @@ import com.bmv.entities.Venue;
 import com.bmv.repositories.VenueRepo;
 import com.bmv.services.VenueService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class VenueServiceImpl implements VenueService {
 	private Logger logger = LoggerFactory.getLogger(OncePerRequestFilter.class);
@@ -44,6 +46,19 @@ public class VenueServiceImpl implements VenueService {
 	public List<Venue> getVenueByAddressAndCapacity(String address, Integer capacity) {
 		List<Venue> allVenues = venueRepo.findByAddressAndCapacity(address, capacity);
 		return allVenues;
+	}
+
+	@Override
+	@Transactional
+	public List<Venue> getVenueByUsername(String email) {
+		logger.info("VenueServiceImpl getVenueByUsername()"+email);
+		List<Venue> venueList=venueRepo.getVenueByUsername(email);
+		
+		logger.info("VenueServiceImpl getVenueByUsername()"+venueList.toString());
+		for(Venue venue:  venueList) {
+			System.out.println(venue.toString());
+		}
+		return venueList;
 	}
 
 }
