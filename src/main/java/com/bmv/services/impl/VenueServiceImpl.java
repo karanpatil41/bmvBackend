@@ -1,16 +1,20 @@
 package com.bmv.services.impl;
 
-
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.bmv.entities.Venue;
+import com.bmv.exception.ResourceNotFoundException;
 import com.bmv.repositories.VenueRepo;
 import com.bmv.services.VenueService;
 
@@ -26,7 +30,7 @@ public class VenueServiceImpl implements VenueService {
 	@Override
 	public Venue createVenue(Venue venue) {
 		logger.info("VenueServiceImpl createVenue(): " + venue.toString());
-		 Venue addedVenue = venueRepo.save(venue);
+		Venue addedVenue = venueRepo.save(venue);
 		return addedVenue;
 	}
 
@@ -51,14 +55,98 @@ public class VenueServiceImpl implements VenueService {
 	@Override
 	@Transactional
 	public List<Venue> getVenueByUsername(String email) {
-		logger.info("VenueServiceImpl getVenueByUsername()"+email);
-		List<Venue> venueList=venueRepo.getVenueByUsername(email);
-		
-		logger.info("VenueServiceImpl getVenueByUsername()"+venueList.toString());
-		for(Venue venue:  venueList) {
+		logger.info("VenueServiceImpl getVenueByUsername()" + email);
+		List<Venue> venueList = venueRepo.getVenueByUsername(email);
+
+		logger.info("VenueServiceImpl getVenueByUsername()" + venueList.toString());
+		for (Venue venue : venueList) {
 			System.out.println(venue.toString());
 		}
 		return venueList;
+	}
+
+	@Override
+	public Venue updateVenueById(int id, Map<String, Object> updates) {
+//		logger.info("VenueServiceImpl--updateVenueById() id=" + id + " updates " + updates);
+//		updates.entrySet().forEach(e -> System.out.println(e));
+		System.out.println("VenueServiceImpl's updateVenueById()");
+		Venue existingVenue = venueRepo.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
+//		System.out.println("VenueServiceImpl--updateVenueById() existingVenue=" + existingVenue);
+//		logger.info("VenueServiceImpl--updateVenueById() existingVenue=" + existingVenue);
+
+		for (Entry<String, Object> entry : updates.entrySet()) {
+			String key = entry.getKey();
+			Object value = entry.getValue();
+			logger.info("key= " + key + " value= " + value);
+			switch (key) {
+			case "id":
+
+				break;
+			case "username":
+				
+				break;
+			case "venueName":
+				existingVenue.setVenueName((String) value);
+				break;
+			case "address":
+				existingVenue.setAddress((String) value);
+				break;
+			case "capacity":
+				existingVenue.setCapacity((Integer) value);
+				break;
+			case "amount":
+				
+				existingVenue.setAmount(Integer.parseInt(value.toString()));
+				break;
+			case "image":
+
+				break;
+			case "description":
+				existingVenue.setDescription((String) value);
+				break;
+			case "contactNumber":
+				existingVenue.setContactNumber((String) value);
+				break;
+			case "createdBy":
+				
+				break;
+			case "createdDate":
+
+				break;
+			case "lastUpdatedBy":
+				existingVenue.setLastUpdatedBy((String) value);
+				break;
+			case "lastUpdatedDate":
+				existingVenue.setLastUpdatedDate((LocalDateTime) value);
+				break;
+			case "password":
+				
+				break;
+			case "confirmPassword":
+				
+				break;
+
+			default:
+				throw new IllegalArgumentException("Unexpected value: " + key);
+			}
+		};
+		return venueRepo.save(existingVenue);
+
+	}
+
+	private void applyUpdates(Venue existingVenue, Map<String, Object> updates) {
+//		logger.info("applyUpdates() existingVenue=" + existingVenue + " updates= " + updates);
+		// Copy non-null properties from updates to the existing venue
+		BeanUtils.copyProperties(existingVenue, updates, getNullPropertyNames(updates));
+
+	}
+
+	private String[] getNullPropertyNames(Map<String, Object> updates) {
+//		logger.info("getNullPropertyNames() " + updates.toString());
+		// Determine which properties in updates have null values
+		return updates.entrySet().stream().filter(entry -> entry.getValue() == null).map(Map.Entry::getKey)
+				.toArray(String[]::new);
 	}
 
 }

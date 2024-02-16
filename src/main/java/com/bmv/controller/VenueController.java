@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -17,7 +18,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +38,7 @@ import com.bmv.services.VenueService;
 public class VenueController {
 
 	private Logger logger = LoggerFactory.getLogger(OncePerRequestFilter.class);
-	
+
 	@Autowired
 	private VenueService venueService;
 
@@ -46,10 +49,10 @@ public class VenueController {
 			@RequestParam("amount") Integer amount, @RequestParam("description") String description,
 			@RequestParam("contactNumber") String contactNumber, Authentication authentication) {
 		// Get the authenticated user's username
-	    String tokenUsername = authentication.getName();
-	    logger.info("Authenticated username= " + username);
-	    logger.info("Venue Controller: createVenue()");
-	    
+		String tokenUsername = authentication.getName();
+		logger.info("Authenticated username= " + username);
+		logger.info("Venue Controller: createVenue()");
+
 		try {
 			Venue venue = new Venue();
 			venue.setVenueName(venueName);
@@ -62,13 +65,13 @@ public class VenueController {
 			venue.setDescription(description);
 			venue.setContactNumber(contactNumber);
 			venue.setImage(image.getBytes());
-			
+
 			// Set createDate and lastUpdatedDate with current LocalDateTime
-            LocalDateTime currentDateTime = LocalDateTime.now(); // Get the current date and time
-            venue.setCreatedDate(currentDateTime); // Set createDate
+			LocalDateTime currentDateTime = LocalDateTime.now(); // Get the current date and time
+			venue.setCreatedDate(currentDateTime); // Set createDate
 //            venue.setLastUpdatedDate(currentDateTime); // Set lastUpdatedDate
-            
-            logger.info("Venue Controller: createVenue()"+ venue.toString());
+
+			logger.info("Venue Controller: createVenue()" + venue.toString());
 			Venue addedVenue = this.venueService.createVenue(venue);
 			String msg = "User added successfully";
 			return new ResponseEntity<Venue>(addedVenue, HttpStatus.CREATED);
@@ -141,8 +144,8 @@ public class VenueController {
 		System.out.println("In Venue Controller: getVenueByCityAndCapacity()");
 		List<Venue> allVenues = venueService.getVenueByAddressAndCapacity(address, capacity);
 		List<VenueResponse> venueResponses = new ArrayList<>();
-		
-		for( Venue venue : allVenues ) {
+
+		for (Venue venue : allVenues) {
 			VenueResponse venueResponse = new VenueResponse();
 			venueResponse.setId(venue.getId());
 			venueResponse.setVenueName(venue.getVenueName());
@@ -152,23 +155,23 @@ public class VenueController {
 			venueResponse.setAmount(venue.getAmount());
 			venueResponse.setContactNumber(venue.getContactNumber());
 			venueResponse.setDescription(venue.getDescription());
-			
+
 			String base64Image = Base64.getEncoder().encodeToString(venue.getImage());
 			venueResponse.setImage(base64Image);
-			
-			venueResponses.add(venueResponse);//venueResponse added to the->list of venueResponses.  
+
+			venueResponses.add(venueResponse);// venueResponse added to the->list of venueResponses.
 		}
 		return new ResponseEntity<>(venueResponses, HttpStatus.OK);
 
 	}
-	
+
 	@GetMapping("/getVenueByUsername")
-	public ResponseEntity<List<VenueResponse>> getVenueByUsername(@RequestParam("username") String username){
+	public ResponseEntity<List<VenueResponse>> getVenueByUsername(@RequestParam("username") String username) {
 		logger.info("In Venue Controller: getVenueByUsername()");
 		List<Venue> venueList = venueService.getVenueByUsername(username);
 		List<VenueResponse> venueResponses = new ArrayList<>();
-		
-		for( Venue venue : venueList ) {
+
+		for (Venue venue : venueList) {
 			VenueResponse venueResponse = new VenueResponse();
 			venueResponse.setId(venue.getId());
 			venueResponse.setVenueName(venue.getVenueName());
@@ -178,12 +181,24 @@ public class VenueController {
 			venueResponse.setAmount(venue.getAmount());
 			venueResponse.setContactNumber(venue.getContactNumber());
 			venueResponse.setDescription(venue.getDescription());
-			
+
 			String base64Image = Base64.getEncoder().encodeToString(venue.getImage());
 			venueResponse.setImage(base64Image);
-			
-			venueResponses.add(venueResponse);//venueResponse added to the->list of venueResponses.  
+
+			venueResponses.add(venueResponse);// venueResponse added to the->list of venueResponses.
 		}
-		return new ResponseEntity<>(venueResponses,HttpStatus.OK);
+		return new ResponseEntity<>(venueResponses, HttpStatus.OK);
+	}
+
+	@PatchMapping("/updateVenue")
+	public ResponseEntity<String> updateVenueById(@RequestParam("id") int id, @RequestBody Map<String, Object> updates) {
+		logger.info("VenueController updateUser() updates="+updates);
+//		logger.info("UserController's updateUser() updates="+updates.toString());
+		System.out.println("In VenueController ");
+		updates.entrySet().forEach(e-> System.out.println(e));
+		Venue updatedVenue = venueService.updateVenueById(id, updates);
+		logger.info("VenueController updateVenueById() updatedVenue =",updatedVenue );
+		
+		return new ResponseEntity<>("Venue updated successfully.", HttpStatus.OK);
 	}
 }

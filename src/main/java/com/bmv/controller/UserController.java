@@ -140,8 +140,8 @@ public class UserController {
 	@PatchMapping("/updateProfile")
 	public ResponseEntity<String> updateUser(@RequestParam("username") String username,
 			@RequestBody Map<String, Object> updates) {
-		logger.info("UserController's updateUser() updates=",updates);
-		logger.info("UserController's updateUser() updates=",updates.toString());
+		logger.info("UserController's updateUser() updates="+updates);
+		logger.info("UserController's updateUser() updates="+updates.toString());
 	    
 		User updatedUser = userService.updateUser(username, updates);
 		logger.info("UserController's updateUser() updatedUser=",updatedUser);

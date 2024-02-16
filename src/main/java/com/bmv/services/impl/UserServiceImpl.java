@@ -59,8 +59,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User updateUser(String username, Map<String, Object> updates) {
-		logger.info("updates=", updates);
-		logger.info("username=", username);
+		logger.info("updates="+ updates);
+		logger.info("username="+ username);
 		User existingUser = userRepo.findByEmail(username)
 				.orElseThrow(() -> new ResourceNotFoundException("User not found with username " + username));
 
