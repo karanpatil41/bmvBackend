@@ -84,7 +84,7 @@ public class VenueServiceImpl implements VenueService {
 
 				break;
 			case "username":
-				
+				existingVenue.setLastUpdatedBy((String) value);
 				break;
 			case "venueName":
 				existingVenue.setVenueName((String) value);
@@ -93,7 +93,7 @@ public class VenueServiceImpl implements VenueService {
 				existingVenue.setAddress((String) value);
 				break;
 			case "capacity":
-				existingVenue.setCapacity((Integer) value);
+				existingVenue.setCapacity(Integer.parseInt(value.toString()));
 				break;
 			case "amount":
 				
@@ -115,10 +115,10 @@ public class VenueServiceImpl implements VenueService {
 
 				break;
 			case "lastUpdatedBy":
-				existingVenue.setLastUpdatedBy((String) value);
+//				existingVenue.setLastUpdatedBy((String) value);
 				break;
 			case "lastUpdatedDate":
-				existingVenue.setLastUpdatedDate((LocalDateTime) value);
+				existingVenue.setLastUpdatedDate(LocalDateTime.now());
 				break;
 			case "password":
 				

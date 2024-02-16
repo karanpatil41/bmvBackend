@@ -35,9 +35,9 @@ public class User implements UserDetails{
 	
 	private String roleName;
 	
-//	@ManyToOne
-//	@JoinColumn(name = "role_id") //Specify the foreign key column name
-//	private Role role;
+	@ManyToOne
+	@JoinColumn(name = "roleId") //Specify the foreign key column name
+	private Role role;
 	
 	
 	public User() {
