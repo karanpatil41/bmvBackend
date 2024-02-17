@@ -18,7 +18,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
 
 @Entity
-public class User implements UserDetails{
+public class User implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -28,28 +28,24 @@ public class User implements UserDetails{
 	private String email;
 	@Column(unique = true)
 	private String contactNumber;
-	private String address ;
+	private String address;
 	private String password;
 	@Transient
 	private String confirmPassword;
-	
-	private String roleName;
-	
-	@ManyToOne
-	@JoinColumn(name = "roleId") //Specify the foreign key column name
-	private Role role;
-	
-	
-	public User() {
-		
-	}
-//	public User(User user) {
-//		this.role = user;
-//	}
-	
 
+	private String roleName;
+
+	private String managerStatus;
+
+	@ManyToOne
+	@JoinColumn(name = "roleId") // Specify the foreign key column name
+	private Role role;
+
+	public User() {
+
+	}
 	public User(int id, String firstName, String lastName, String email, String contactNumber, String address,
-			String password, String confirmPassword, String roleName, Role role) {
+			String password, String confirmPassword, String roleName, String managerStatus, Role role) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -60,7 +56,8 @@ public class User implements UserDetails{
 		this.password = password;
 		this.confirmPassword = confirmPassword;
 		this.roleName = roleName;
-//		this.role = role;
+		this.managerStatus = managerStatus;
+		this.role = role;
 	}
 	
 	public int getId() {
@@ -126,33 +123,44 @@ public class User implements UserDetails{
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
-	
+
 	public String getRoleName() {
 		return roleName;
 	}
+
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
 	}
-//	public Role getRole() {
-//		return role;
-//	}
 
-//	public void setRole(Role role) {
-//		this.role = role;
-//	}
+	public String getManagerStatus() {
+		return managerStatus;
+	}
 
-	
+	public void setManagerStatus(String managerStatus) {
+		this.managerStatus = managerStatus;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", contactNumber=" + contactNumber + ", address=" + address + ", password=" + password
-				+ ", confirmPassword=" + confirmPassword + ", roleName=" + roleName  + "]";
+				+ ", confirmPassword=" + confirmPassword + ", roleName=" + roleName + ", managerStatus=" + managerStatus
+				+ ", role=" + role + "]";
 	}
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 //		SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(role.getRoleName());
-		
+
 //		return List.of(simpleGrantedAuthority);
 		return null;
 	}

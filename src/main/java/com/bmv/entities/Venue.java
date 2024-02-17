@@ -9,7 +9,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Venue {
@@ -31,14 +33,20 @@ public class Venue {
 	private LocalDateTime createdDate;
 	private String lastUpdatedBy;
 	private LocalDateTime lastUpdatedDate;
+	
+	@ManyToOne
+	@JoinColumn(name = "venueManagerId")
+	private User venueManagerId;
 
 	public Venue() {
 
 	}
 
+	
+
 	public Venue(int id, String username, String venueName, String address, Integer capacity, Integer amount,
 			byte[] image, String description, String contactNumber, String createdBy, LocalDateTime createdDate,
-			String lastUpdatedBy, LocalDateTime lastUpdatedDate) {
+			String lastUpdatedBy, LocalDateTime lastUpdatedDate, User venueManagerId) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -53,7 +61,10 @@ public class Venue {
 		this.createdDate = createdDate;
 		this.lastUpdatedBy = lastUpdatedBy;
 		this.lastUpdatedDate = lastUpdatedDate;
+		this.venueManagerId = venueManagerId;
 	}
+
+
 
 	public int getId() {
 		return id;
@@ -158,13 +169,24 @@ public class Venue {
 	public void setLastUpdatedDate(LocalDateTime lastUpdatedDate) {
 		this.lastUpdatedDate = lastUpdatedDate;
 	}
+	
+
+	public User getVenueManagerId() {
+		return venueManagerId;
+	}
+
+	public void setVenueManagerId(User venueManagerId) {
+		this.venueManagerId = venueManagerId;
+	}
 
 	@Override
 	public String toString() {
 		return "Venue [id=" + id + ", username=" + username + ", venueName=" + venueName + ", address=" + address
-				+ ", capacity=" + capacity + ", amount=" + amount + ", image=" + Arrays.toString(image)
+				+ ", capacity=" + capacity + ", amount=" + amount 
 				+ ", description=" + description + ", contactNumber=" + contactNumber + ", createdBy=" + createdBy
 				+ ", createdDate=" + createdDate + ", lastUpdatedBy=" + lastUpdatedBy + ", lastUpdatedDate="
-				+ lastUpdatedDate + "]";
+				+ lastUpdatedDate + ", venueManagerId=" + venueManagerId + ", image=" + Arrays.toString(image) + "]";
 	}
+
+	
 }

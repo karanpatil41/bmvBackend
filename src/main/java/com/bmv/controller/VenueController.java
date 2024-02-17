@@ -47,7 +47,7 @@ public class VenueController {
 			@RequestParam("username") String username, @RequestParam("venueName") String venueName,
 			@RequestParam("address") String address, @RequestParam("capacity") Integer capacity,
 			@RequestParam("amount") Integer amount, @RequestParam("description") String description,
-			@RequestParam("contactNumber") String contactNumber, Authentication authentication) {
+			@RequestParam("contactNumber") String contactNumber,@RequestParam("venueManagerId") User venueManagerId, Authentication authentication) {
 		// Get the authenticated user's username
 		String tokenUsername = authentication.getName();
 		logger.info("Authenticated username= " + username);
@@ -64,8 +64,9 @@ public class VenueController {
 			venue.setAmount(amount);
 			venue.setDescription(description);
 			venue.setContactNumber(contactNumber);
+			venue.setVenueManagerId(venueManagerId);
 			venue.setImage(image.getBytes());
-
+			
 			// Set createDate and lastUpdatedDate with current LocalDateTime
 			LocalDateTime currentDateTime = LocalDateTime.now(); // Get the current date and time
 			venue.setCreatedDate(currentDateTime); // Set createDate

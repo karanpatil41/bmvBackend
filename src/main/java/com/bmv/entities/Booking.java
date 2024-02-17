@@ -34,8 +34,9 @@ public class Booking {
 	@JoinColumn(name = "venueId")
 	private Venue venue;
 	
-	private LocalDateTime startTime;
-	private LocalDateTime endTime;
+	private LocalDateTime bookingDate;
+	private LocalDateTime checkinDate;
+	private LocalDateTime checkoutDate;
 	private String status;
 	
 }

@@ -123,7 +123,7 @@ public class UserController {
 		// Fetch the Role entity based on roleId and set it to the user
 		Role role = new Role();
 		role.setRoleId(userSignUpRequest.getRoleId()); // Assuming roleId is an int in UserSignUpRequest
-//		user.setRole(role);
+		user.setRole(role);
 		return user;
 	}
 
