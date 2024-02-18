@@ -1,5 +1,6 @@
 package com.bmv.services.impl;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -147,6 +148,14 @@ public class VenueServiceImpl implements VenueService {
 		// Determine which properties in updates have null values
 		return updates.entrySet().stream().filter(entry -> entry.getValue() == null).map(Map.Entry::getKey)
 				.toArray(String[]::new);
+	}
+
+	@Override
+	public Object getVenueAndUserData(Integer id) {
+		logger.info("VenueServiceImpl--getVenueAndUserData()");
+		Object venueAndUserDataList = venueRepo.findVenueAndUserData( id);
+		logger.info("VenueServiceImpl--getVenueAndUserData()--venueAndUserDataList="+venueAndUserDataList);
+		return venueAndUserDataList;
 	}
 
 }

@@ -22,6 +22,9 @@ public interface VenueRepo extends JpaRepository<Venue, Integer> {
 	
 //	@Query("select v from Venue v where v.username=:username")
 //	public List<Venue> getVenueByUsername(@Param("username") String username);
-	
+
+//	select venue.venue_name,venue.amount,user.email,user.first_name,user.last_name from venue inner join user on venue.venue_manager_id=user.id;
+	@Query("SELECT v.id, v.venueName, v.address, v.amount, u.email, u.firstName, u.lastName,u.contactNumber FROM Venue v INNER JOIN v.venueManagerId u WHERE v.id=:id")
+	Object findVenueAndUserData(@Param("id") Integer id);
 
 }
