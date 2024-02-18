@@ -38,7 +38,7 @@ public class Booking {
 	private LocalDateTime checkinDate;
 	private LocalDateTime checkoutDate;
 	private Integer noOfGuests;
-	private String status;
+	private String paymentStatus;
 	private Integer amount;
 	private String createdBy;
 	private LocalDateTime createdDate;
