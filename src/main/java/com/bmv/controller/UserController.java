@@ -119,6 +119,7 @@ public class UserController {
 		user.setPassword(userSignUpRequest.getPassword());
 		user.setConfirmPassword(userSignUpRequest.getConfirmPassword());
 		user.setRoleName(userSignUpRequest.getRoleName());
+		user.setManagerStatus(userSignUpRequest.getManagerStatus());
 
 		// Fetch the Role entity based on roleId and set it to the user
 		Role role = new Role();

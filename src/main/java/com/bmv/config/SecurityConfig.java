@@ -47,6 +47,7 @@ public class SecurityConfig {
 		http.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(auth -> auth
 					.requestMatchers("/api/venue/**").permitAll()
+					.requestMatchers("/booking/book").permitAll()
 					.requestMatchers("/api/venue/createVenue").authenticated()
 					.requestMatchers("/api/user/**").permitAll()
 					.requestMatchers("/api/user/updateProfile","/api/user/userProfile").authenticated()

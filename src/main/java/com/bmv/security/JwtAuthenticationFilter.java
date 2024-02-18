@@ -58,7 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			// looking good
 			token = requestHeader.substring(7);
 			try {
-
+				logger.info("JwtAuthenticationFilter--try block ");
 				username = this.jwtHelper.getUsernameFromToken(token);
 
 			} catch (IllegalArgumentException e) {

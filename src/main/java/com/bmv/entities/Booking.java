@@ -37,6 +37,11 @@ public class Booking {
 	private LocalDateTime bookingDate;
 	private LocalDateTime checkinDate;
 	private LocalDateTime checkoutDate;
+	private Integer noOfGuests;
 	private String status;
+	private String createdBy;
+	private LocalDateTime createdDate;
+	private String lastUpdatedBy;
+	private LocalDateTime lastUpdatedDate;
 	
 }

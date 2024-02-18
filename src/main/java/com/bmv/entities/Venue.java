@@ -41,7 +41,9 @@ public class Venue {
 	public Venue() {
 
 	}
-
+	 public Venue(int id) {
+	        this.id = id;
+	    }
 	
 
 	public Venue(int id, String username, String venueName, String address, Integer capacity, Integer amount,

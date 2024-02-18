@@ -44,6 +44,11 @@ public class User implements UserDetails {
 	public User() {
 
 	}
+
+	public User(int id) {
+		this.id = id;
+	}
+
 	public User(int id, String firstName, String lastName, String email, String contactNumber, String address,
 			String password, String confirmPassword, String roleName, String managerStatus, Role role) {
 		super();
@@ -59,7 +64,7 @@ public class User implements UserDetails {
 		this.managerStatus = managerStatus;
 		this.role = role;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -148,8 +153,6 @@ public class User implements UserDetails {
 		this.role = role;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
@@ -157,6 +160,7 @@ public class User implements UserDetails {
 				+ ", confirmPassword=" + confirmPassword + ", roleName=" + roleName + ", managerStatus=" + managerStatus
 				+ ", role=" + role + "]";
 	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 //		SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(role.getRoleName());
