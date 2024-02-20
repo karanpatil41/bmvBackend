@@ -2,6 +2,8 @@ package com.bmv.services.impl;
 
 import java.util.List;
 
+import javax.ws.rs.NotFoundException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +41,28 @@ public class BookingServiceImpl implements BookingService {
 		logger.info("BookingServiceImpl--getUserDetailsByBookingId()");
 
 		return bookingRepo.findUserDetailsByBookingId(userId);
+	}
+	@Override
+	public void acceptBooking(int bookingId) {
+		// Retrieve the booking by its ID
+		Booking booking = bookingRepo.findById(bookingId).orElseThrow(() -> new NotFoundException("Booking Not found"));
+		
+		// Update the payment status to "Done"
+		booking.setPaymentStatus("Done");
+		
+		//Save the updated booking
+		bookingRepo.save(booking);
+	}
+	@Override
+	public void rejectBooking(int bookingId) {
+		// Retrieve the booking by its ID
+				Booking booking = bookingRepo.findById(bookingId).orElseThrow(() -> new NotFoundException("Booking Not found"));
+				
+				// Update the payment status to "Done"
+				booking.setPaymentStatus("Rejected");
+				
+				//Save the updated booking
+				bookingRepo.save(booking);
+		
 	}
 }

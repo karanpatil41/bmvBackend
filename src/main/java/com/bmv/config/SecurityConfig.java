@@ -49,7 +49,7 @@ public class SecurityConfig {
 				.authorizeHttpRequests(auth -> auth
 					.requestMatchers("/api/venue/**").permitAll()
 					.requestMatchers("/booking/book").permitAll()
-					.requestMatchers("/booking/request").permitAll()
+					.requestMatchers("/booking/**").permitAll()
 					.requestMatchers("/api/venue/createVenue").authenticated()
 					.requestMatchers("/api/user/**").permitAll()
 					.requestMatchers("/api/user/updateProfile","/api/user/userProfile").authenticated()

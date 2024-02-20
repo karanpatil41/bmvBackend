@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,9 +50,16 @@ public class BookingController {
 		logger.info("BookingController--bookVenue()--booking="+savedBooking);
 		return new ResponseEntity<String>("Pay for confirmation",HttpStatus.OK);
 	}
-
-	
-
+	@PostMapping("/accept/{bookingId}")
+	public ResponseEntity<String> acceptBooking(@PathVariable int bookingId){
+		bookingService.acceptBooking(bookingId);
+		return ResponseEntity.ok("Booking accepted successfully.");
+	}
+	@PostMapping("/reject/{bookingId}")
+	public ResponseEntity<String> rejectBooking(@PathVariable int bookingId){
+		bookingService.rejectBooking(bookingId);
+		return ResponseEntity.ok("Booking rejected successfully.");
+	}
 
 //3rd-query--	select u.address,u.contact_number,u.email,u.first_name,u.last_name,b.booking_id  from user u join booking b ON u.id=b.user_id where b.booking_id=14;
 	//On booking_id ,fetch details of user

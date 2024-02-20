@@ -12,4 +12,8 @@ public interface BookingService {
 	List<BookingDto> getBookingsByVenueId(int venueId);
 	
 	List<UserDto> getUserDetailsByBookingId(int userId);
+
+	void acceptBooking(int bookingId);
+	
+	void rejectBooking(int bookingId);
 }
