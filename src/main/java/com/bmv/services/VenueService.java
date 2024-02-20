@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.bmv.dto.VenueDTO;
 import com.bmv.entities.Venue;
 
 
@@ -22,4 +23,6 @@ public interface VenueService {
 	Venue updateVenueById(int id, Map<String, Object> updates);
 	
 	Object getVenueAndUserData(Integer id);
+	
+	List<VenueDTO> findByVenueManagerIdId(int  userid);
 }

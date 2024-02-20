@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 
-import com.bmv.entities.User;
+import com.bmv.dto.VenueDTO;
 import com.bmv.entities.Venue;
 
 public interface VenueRepo extends JpaRepository<Venue, Integer> {
@@ -26,5 +26,9 @@ public interface VenueRepo extends JpaRepository<Venue, Integer> {
 //	select venue.venue_name,venue.amount,user.email,user.first_name,user.last_name from venue inner join user on venue.venue_manager_id=user.id;
 	@Query("SELECT v.id, v.venueName, v.address, v.amount, u.email, u.firstName, u.lastName,u.contactNumber FROM Venue v INNER JOIN v.venueManagerId u WHERE v.id=:id")
 	Object findVenueAndUserData(@Param("id") Integer id);
+	
+//	1st query--select id,venue_name,amount,address from venue where venue_manager_id=14; //You will get list of venues of userid=14
+	@Query("SELECT new com.bmv.dto.VenueDTO(v.id, v.venueName, v.amount, v.address) FROM Venue v WHERE v.venueManagerId.id =:venueManagerId")
+	List<VenueDTO> findByVenueManagerIdId(@Param("venueManagerId") int venueManagerId);
 
 }

@@ -1,6 +1,5 @@
 package com.bmv.services.impl;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -9,11 +8,11 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.bmv.dto.VenueDTO;
 import com.bmv.entities.Venue;
 import com.bmv.exception.ResourceNotFoundException;
 import com.bmv.repositories.VenueRepo;
@@ -136,26 +135,19 @@ public class VenueServiceImpl implements VenueService {
 
 	}
 
-	private void applyUpdates(Venue existingVenue, Map<String, Object> updates) {
-//		logger.info("applyUpdates() existingVenue=" + existingVenue + " updates= " + updates);
-		// Copy non-null properties from updates to the existing venue
-		BeanUtils.copyProperties(existingVenue, updates, getNullPropertyNames(updates));
-
-	}
-
-	private String[] getNullPropertyNames(Map<String, Object> updates) {
-//		logger.info("getNullPropertyNames() " + updates.toString());
-		// Determine which properties in updates have null values
-		return updates.entrySet().stream().filter(entry -> entry.getValue() == null).map(Map.Entry::getKey)
-				.toArray(String[]::new);
-	}
-
 	@Override
 	public Object getVenueAndUserData(Integer id) {
 		logger.info("VenueServiceImpl--getVenueAndUserData()");
 		Object venueAndUserDataList = venueRepo.findVenueAndUserData( id);
 		logger.info("VenueServiceImpl--getVenueAndUserData()--venueAndUserDataList="+venueAndUserDataList);
 		return venueAndUserDataList;
+	}
+
+	@Override
+	public List<VenueDTO> findByVenueManagerIdId(int userid) {
+		logger.info("VenueServiceImpl--findByVenueManagerIdId()="+userid);
+		 List<VenueDTO> venueListByVenueManagerId = venueRepo.findByVenueManagerIdId(userid);
+		 return venueListByVenueManagerId;
 	}
 
 }

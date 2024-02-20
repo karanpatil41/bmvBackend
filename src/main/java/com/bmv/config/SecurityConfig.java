@@ -45,9 +45,11 @@ public class SecurityConfig {
 
 		// configuration
 		http.csrf(csrf -> csrf.disable())
+		.cors(cors -> cors.disable())
 				.authorizeHttpRequests(auth -> auth
 					.requestMatchers("/api/venue/**").permitAll()
 					.requestMatchers("/booking/book").permitAll()
+					.requestMatchers("/booking/request").permitAll()
 					.requestMatchers("/api/venue/createVenue").authenticated()
 					.requestMatchers("/api/user/**").permitAll()
 					.requestMatchers("/api/user/updateProfile","/api/user/userProfile").authenticated()
